@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>مبدل رسید بانکی - عکس، متن، دستی</title>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css');
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css');
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css');
+/* V46: فقط فونت متن‌های فارسی رسید قابل انتخاب شد؛ اعداد و ظاهر رسید دست‌نخورده می‌مانند. */
+:root{--receipt-fa-font:'Noto Naskh Arabic','Vazir','Vazirmatn',Tahoma,sans-serif}
+.receipt-wrapper, .receipt-wrapper .banner-title, .receipt-wrapper .receipt-head-title, .receipt-wrapper .detail-label, .receipt-wrapper .bank-name, .receipt-wrapper .detail-value:not(.amount), .receipt-wrapper .bottom-label, .receipt-wrapper .action-btn, .receipt-wrapper .print-link{font-family:var(--receipt-fa-font)!important;font-weight:600}
+.receipt-wrapper .banner-title, .receipt-wrapper .receipt-head-title{font-weight:700!important}
+.receipt-wrapper .detail-value.amount, .receipt-wrapper .bottom-value, .receipt-wrapper .bank-iban, .receipt-wrapper .ltr{font-family:var(--receipt-fa-font)!important}
+
+body{font-family:'Vazirmatn',Tahoma,sans-serif;background:#eef0ee;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px 14px 38px;direction:rtl;color:#222}
+.app-title{font-size:18px;font-weight:800;color:#145c2a;margin-bottom:14px;text-align:center}.app-sub{font-size:12px;color:#666;margin-bottom:16px;text-align:center;line-height:1.8;max-width:460px}
+.panel{width:100%;max-width:460px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 14px rgba(0,0,0,.08);margin-bottom:20px}.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;background:#f2f3f2;border-radius:12px;padding:5px;margin-bottom:14px}.tab{border:0;background:transparent;border-radius:10px;padding:10px 4px;font-family:inherit;font-size:12.5px;color:#777;cursor:pointer}.tab.active{background:#fff;color:#156a2e;font-weight:700;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.hint{font-size:11.8px;color:#666;line-height:1.9;background:#f8faf8;border-right:3px solid #2e7d32;border-radius:0 9px 9px 0;padding:9px 10px;margin-bottom:12px}.label{display:block;font-size:12.5px;color:#666;margin:10px 0 6px}.input,.textarea,.select{width:100%;border:1.5px solid #ddd;border-radius:10px;padding:10px 11px;font-family:inherit;font-size:13px;outline:none;background:#fff}.textarea{min-height:145px;resize:vertical;direction:rtl;line-height:1.8}.input:focus,.textarea:focus,.select:focus{border-color:#2e7d32}.file{width:100%;border:1.5px dashed #bbb;border-radius:11px;padding:11px;background:#fafafa;font-family:inherit;font-size:12px;cursor:pointer}.btn{width:100%;border:0;border-radius:11px;padding:12px;margin-top:12px;background:#2e7d32;color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}.btn.secondary{background:#555}.btn.light{background:#f1f5f2;color:#24552f;border:1px solid #d8e4da}.btn:disabled{opacity:.6;cursor:not-allowed}.err{display:none;background:#ffebee;color:#b71c1c;border-radius:10px;padding:9px 11px;margin-top:10px;font-size:12px;white-space:pre-wrap;line-height:1.8}.progress{display:none;background:#edf7ee;color:#35623d;border-radius:10px;padding:10px;margin-top:10px;font-size:12px;text-align:center;line-height:1.8}.mode{display:none}.mode.active{display:block}
+.review{display:none;width:100%;max-width:460px;background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 14px rgba(0,0,0,.08);margin-bottom:20px}.review-title{font-size:15px;font-weight:800;color:#333;margin-bottom:8px}.review-note{font-size:11.8px;line-height:1.9;color:#7a5a00;background:#fff8df;border:1px solid #ffe08a;border-radius:10px;padding:9px 10px;margin-bottom:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ltr{direction:ltr;text-align:left}.row-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{font-size:11px;color:#777;margin-top:7px;line-height:1.8}.receipt-wrapper{width:100%;max-width:360px;display:none;flex-direction:column;align-items:center}.success-banner{display:flex;flex-direction:column;align-items:center;padding:12px 0 16px;width:100%}.check-circle{width:62px;height:62px;border-radius:50%;border:3px solid #2cb24a;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:#fff}.check-circle.failed{border-color:#d32f2f}.check-circle.pending{border-color:#ef9d0e}.check-circle svg{width:31px;height:31px;stroke:#2cb24a;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}.check-circle.failed svg{stroke:#d32f2f}.check-circle.pending svg{stroke:#ef9d0e}.banner-title-row{display:flex;align-items:center;gap:10px;width:100%;justify-content:center}.banner-line{flex:1;max-width:58px;height:1px;background:#d8d8d8}.banner-title{font-size:16px;font-weight:800;color:#252525;white-space:nowrap}.receipt-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.12);width:100%}.banks-row{padding:22px 20px 18px;display:flex;justify-content:center;border-bottom:1.5px dashed #e2e2e2}.bank-side{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}.bank-logo-circle{width:50px;height:50px;border-radius:50%;border:1px solid #e8e8e8;display:flex;align-items:center;justify-content:center;background:#fafafa;font-size:13px;font-weight:800}.bank-name{font-size:11.5px;color:#333;font-weight:600;text-align:center;max-width:220px;line-height:1.5}.bank-iban{font-size:10px;color:#8d8d8d;direction:ltr;text-align:center;word-break:break-all;letter-spacing:.2px}.receipt-head-title{font-size:17px;font-weight:800;color:#252525;text-align:center;padding:8px 0}.details-section{padding:4px 20px 6px}.detail-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f2f2f2;gap:10px}.details-section .detail-row:first-child{padding-top:18px}.detail-label{font-size:12.5px;color:#9a9a9a;flex-shrink:0;white-space:nowrap}.detail-value{font-size:12.5px;color:#2b2b2b;font-weight:600;text-align:left;direction:rtl;word-break:break-word}.detail-value.amount{font-size:14.5px;color:#1c1c1c;font-weight:800;direction:ltr;text-align:left;font-family:var(--receipt-fa-font)!important;letter-spacing:.2px}.dotted-divider{position:relative;height:1px;margin:0 -1px;border-top:2px dashed #c8e6c9}.dotted-divider:before,.dotted-divider:after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#eef0ee;border-radius:50%}.dotted-divider:before{left:-10px}.dotted-divider:after{right:-10px}.bottom-info{padding:16px 20px 18px;background:#fff}.bottom-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}.bottom-label{font-size:12.5px;color:#9a9a9a}.bottom-value{font-size:12px;color:#2b2b2b;direction:ltr;font-weight:600}.action-row{background:#181818;display:flex;padding:4px 4px 6px}.action-btn{flex:1;padding:12px 4px 8px;background:none;border:0;cursor:pointer;font-family:inherit;font-size:10.5px;color:#d0d0d0;display:flex;flex-direction:column;align-items:center;gap:6px}.action-btn svg{width:19px;height:19px;stroke:#d0d0d0;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.print-link{margin-top:16px;background:none;border:0;color:#666;font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer}@media print{body{background:#fff;padding:0}.panel,.review,.print-link{display:none!important}.receipt-wrapper{display:flex!important}.action-row{display:none!important}}
+
+/* V47: اعمال واقعی فونت انتخابی فقط روی متن‌های فارسی رسید؛ عددها ثابت می‌مانند. */
+#receiptWrapper, #receiptCard{font-family:var(--receipt-fa-font)!important}
+#receiptWrapper .banner-title, #receiptWrapper .receipt-head-title, #receiptWrapper .bank-name, #receiptWrapper .detail-label, #receiptWrapper .detail-value:not(.amount), #receiptWrapper .bottom-label, #receiptWrapper .action-btn span, #receiptWrapper .print-link, #receiptWrapper .font-persian{font-family:var(--receipt-fa-font)!important}
+#receiptWrapper .detail-value.amount, #receiptWrapper .bottom-value, #receiptWrapper .bank-iban, #receiptWrapper .font-number, #receiptWrapper [data-num="1"]{font-family:var(--receipt-fa-font)!important;font-variant-numeric:normal}
+#receiptWrapper[data-font="nastaliq"] .banner-title, #receiptWrapper[data-font="nastaliq"] .receipt-head-title, #receiptWrapper[data-font="nastaliq"] .bank-name, #receiptWrapper[data-font="nastaliq"] .detail-label, #receiptWrapper[data-font="nastaliq"] .detail-value:not(.amount), #receiptWrapper[data-font="nastaliq"] .bottom-label, #receiptWrapper[data-font="nastaliq"] .action-btn span{line-height:1.9}
+</style>
+</head>
+<body>
+<div class="app-title">🏦 مبدل رسید بانکی</div>
+<div class="app-sub">فقط سه مسیر دارد: عکس رسید، متن رسید، یا پر کردن دستی. لینک، HTML و PDF حذف شده‌اند.</div>
+<div class="panel">
+  <div class="tabs">
+    <button class="tab active" id="tabImage" onclick="switchMode('image')">رسید با عکس</button>
+    <button class="tab" id="tabText" onclick="switchMode('text')">رسید با متن</button>
+    <button class="tab" id="tabManual" onclick="switchMode('manual')">پر کردن دستی</button>
+  </div>
+  <div id="modeImage" class="mode active">
+    <div class="hint">عکس JPG/PNG رسید را بده. برنامه متن را می‌خواند، اما مستقیم رسید نمی‌سازد؛ اول فرم تأیید باز می‌شود تا مقدار اشتباه جای‌گذاری نشود.</div>
+    <label class="label">انتخاب عکس رسید:</label>
+    <input id="imageInput" type="file" accept="image/*" class="file" />
+    <button id="ocrBtn" class="btn" onclick="processImageReceipt()">خواندن عکس ←</button>
+    <div id="ocrProgress" class="progress"></div>
+  </div>
+  <div id="modeText" class="mode">
+    <div class="hint">متن قابل مشاهده رسید را اینجا Paste کن. لازم نیست HTML باشد؛ فقط متن معمولی رسید کافی است.</div>
+    <textarea id="receiptText" class="textarea" placeholder="مثلاً: مبلغ ۲۴۰,۰۰۰,۰۰۰ ریال ... کد رهگیری بانک ... شماره شبا مقصد ..."></textarea>
+    <button class="btn" onclick="processTextReceipt()">تشخیص از متن ←</button>
+  </div>
+  <div id="modeManual" class="mode">
+    <div class="hint">اگر OCR دقیق نبود، از این بخش مستقیم رسید را پر کن.</div>
+    <button class="btn" onclick="openReviewForm({status:'TRANSFERRED',transferTypeRaw:'ACH'}, 'manual')">باز کردن فرم دستی ←</button>
+  </div>
+  <div id="errorMsg" class="err"></div>
+</div>
+
+<div id="reviewBox" class="review">
+  <div class="review-title">بررسی و اصلاح اطلاعات</div>
+  <div class="review-note" id="reviewNote">قبل از ساخت رسید، مقادیر را تأیید کن. این مرحله عمداً اجباری است تا مقدار اشتباه در جای غلط ننشیند.</div>
+  <label class="label">فونت فارسی تصویر نهایی رسید</label>
+  <select id="f_receiptFont" class="select" onchange="applyReceiptFont(this.value)">
+    <option value="naskh">نزدیک به رسید نمونه / نسخ</option>
+    <option value="nastaliq">نستعلیق نرم</option>
+    <option value="vazir">وزیر</option>
+    <option value="vazirmatn">وزیرمتن</option>
+    <option value="shabnam">شبنم</option>
+    <option value="sahel">ساحل</option>
+    <option value="samim">صمیم</option>
+    <option value="notoSans">نوتو سنس عربی</option>
+    <option value="tahoma">Tahoma</option>
+  </select>
+  <label class="label">نام دریافت‌کننده / صاحب حساب مقصد</label><input id="f_destName" class="input" />
+  <label class="label">شماره شبا مقصد</label><input id="f_destIban" class="input ltr" />
+  <div class="grid2">
+    <div><label class="label">بانک مقصد</label><input id="f_destBank" class="input" /></div>
+    <div><label class="label">نوع تراکنش</label><select id="f_type" class="select"><option value="ACH">پایا</option><option value="NORMAL">آنی</option><option value="SATNA">ساتنا</option><option value="BANK">بانکی</option></select></div>
+  </div>
+  <label class="label">مبلغ ریال</label><input id="f_amount" class="input ltr" />
+  <div class="grid2">
+    <div><label class="label">کد رهگیری بانک</label><input id="f_tracking" class="input ltr" /></div>
+    <div><label class="label">زمان/تاریخ تراکنش</label><input id="f_created" class="input ltr" /></div>
+  </div>
+  <div class="grid2">
+    <div><label class="label">وضعیت</label><select id="f_status" class="select"><option value="TRANSFERRED">موفق</option><option value="PENDING">در انتظار</option><option value="FAILED">ناموفق</option></select></div>
+    <div><label class="label">بابت</label><select id="f_purpose" class="select"><option value="خرید">خرید</option><option value="قرض">قرض</option><option value="تادیه دیون">تادیه دیون</option></select></div>
+  </div>
+  <label class="label">توضیحات</label><input id="f_desc" class="input" />
+  <div class="row-actions"><button class="btn" onclick="buildReceiptFromForm()">ساخت رسید ←</button><button class="btn light" onclick="clearReviewForm()">پاک کردن فرم</button></div>
+  <div class="small">بعد از ساخت، روی مقدارهای داخل رسید هم می‌توانی کلیک و اصلاح کنی.</div>
+</div>
+
+<div class="receipt-wrapper" id="receiptWrapper">
+  <div class="success-banner"><div class="check-circle" id="statusCircle"><svg id="statusIcon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><div class="banner-title-row"><div class="banner-line"></div><div class="banner-title" id="receiptType">رسید انتقال وجهپایا</div><div class="banner-line"></div></div></div>
+  <div class="receipt-card" id="receiptCard">
+    <div class="banks-row"><div class="receipt-head-title" id="topReceiptTitle">رسید انتقال وجه</div><div id="destLogo" style="display:none"></div></div>
+    <div class="details-section" id="detailsSection"><div class="detail-row"><div class="detail-label">صاحب حساب مقصد</div><div class="detail-value" id="destName">—</div></div><div class="detail-row"><div class="detail-label">شماره شبا</div><div class="detail-value ltr" id="destIban">—</div></div><div class="detail-row"><div class="detail-label">وضعیت انتقال</div><div class="detail-value" id="statusVal">—</div></div><div class="detail-row"><div class="detail-label">بابت</div><div class="detail-value" id="purposeVal">—</div></div><div class="detail-row"><div class="detail-label">مبلغ (ریال)</div><div class="detail-value amount" id="amountVal">—</div></div></div>
+    <div class="dotted-divider"></div><div class="bottom-info"><div class="bottom-row"><div class="bottom-label">زمان تراکنش</div><div class="bottom-value" id="timeVal">—</div></div><div class="bottom-row"><div class="bottom-label">کد پیگیری</div><div class="bottom-value" id="trackingVal">—</div></div></div>
+    <div class="action-row"><button class="action-btn" onclick="shareReceipt()"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg><span>اشتراک گذاری</span></button><button class="action-btn" onclick="copyTracking()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg><span>کپی کد پیگیری</span></button><button class="action-btn" onclick="downloadReceipt()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span>دانلود تصویر</span></button></div>
+  </div><button class="print-link" onclick="window.print()">🖨️ چاپ رسید</button>
+</div>
+<script>
+const BANK_CODES={'010':'بانک مرکزی','011':'بانک صنعت و معدن','012':'بانک ملت','013':'بانک رفاه کارگران','014':'بانک مسکن','015':'بانک سپه','016':'بانک کشاورزی','017':'بانک ملی ایران','018':'بانک تجارت','019':'بانک صادرات','020':'بانک توسعه صادرات','021':'پست بانک','022':'بانک توسعه تعاون','053':'بانک کارآفرین','054':'بانک پارسیان','055':'بانک اقتصاد نوین','056':'بانک سامان','057':'بانک پاسارگاد','058':'بانک سرمایه','059':'بانک سینا','061':'بانک شهر','062':'بانک آینده','064':'بانک گردشگری','066':'بانک دی','069':'بانک ایران زمین','070':'بانک رسالت','078':'بانک قرض‌الحسنه مهر ایران','094':'شبکه گستر پارسه ارتباطات پایدار'};
+const BANK_COLORS={'012':'#c62828','019':'#005baa','017':'#006633','013':'#8B0000','014':'#004080','015':'#006600','016':'#2e7d32','021':'#ff6f00','018':'#1a237e','053':'#1565c0','054':'#283593','055':'#0d47a1','056':'#1b5e20','057':'#880e4f','058':'#e65100','059':'#37474f','061':'#00838f','062':'#bf360c','064':'#00695c','066':'#c62828','070':'#00796b','078':'#1b5e20','094':'#1b5e20'};
+const STATUS_MAP={TRANSFERRED:'موفق',FAILED:'ناموفق',PENDING:'در انتظار'}; const TYPE_MAP={ACH:'پایا',NORMAL:'آنی',SATNA:'ساتنا',BANK:'بانکی'};
+function $(id){return document.getElementById(id)}
+const RECEIPT_FONT_MAP={
+  naskh:"'Noto Naskh Arabic','Vazir','Vazirmatn',Tahoma,sans-serif",
+  nastaliq:"'Noto Nastaliq Urdu','Noto Naskh Arabic','Vazir','Vazirmatn',Tahoma,sans-serif",
+  vazir:"'Vazir','Vazirmatn',Tahoma,sans-serif",
+  vazirmatn:"'Vazirmatn','Vazir',Tahoma,sans-serif",
+  shabnam:"'Shabnam','Vazirmatn',Tahoma,sans-serif",
+  sahel:"'Sahel','Vazirmatn',Tahoma,sans-serif",
+  samim:"'Samim','Vazirmatn',Tahoma,sans-serif",
+  notoSans:"'Noto Sans Arabic','Vazirmatn',Tahoma,sans-serif",
+  tahoma:"Tahoma,Arial,sans-serif"
+};
+function applyReceiptFont(key){
+  key=RECEIPT_FONT_MAP[key]?key:'naskh';
+  const font=RECEIPT_FONT_MAP[key];
+  document.documentElement.style.setProperty('--receipt-fa-font',font);
+  const wrap=$('receiptWrapper'), card=$('receiptCard');
+  if(wrap){wrap.dataset.font=key;wrap.style.fontFamily=font;}
+  if(card){card.style.fontFamily=font;}
+  document.querySelectorAll('#receiptWrapper .banner-title,#receiptWrapper .receipt-head-title,#receiptWrapper .bank-name,#receiptWrapper .detail-label,#receiptWrapper .detail-value,#receiptWrapper .bottom-label,#receiptWrapper .bottom-value,#receiptWrapper .bank-iban,#receiptWrapper .action-btn span,#receiptWrapper .print-link,#receiptWrapper [data-num="1"]').forEach(el=>{el.style.fontFamily=font;});
+  try{localStorage.setItem('receiptFaFont',key)}catch(_){ }
+  const sel=$('f_receiptFont'); if(sel&&sel.value!==key)sel.value=key;
+  if(document.fonts&&document.fonts.load){try{document.fonts.load('12px '+font.split(',')[0].replace(/["']/g,''));}catch(_){ }}
+}
+document.addEventListener('DOMContentLoaded',()=>applyReceiptFont((localStorage.getItem('receiptFaFont')||'naskh')));
+function showError(msg){const el=$('errorMsg'); el.textContent=msg||''; el.style.display=msg?'block':'none'}
+function clean(s){return String(s||'').replace(/[\u200c\u200f\u200e\u202a-\u202e\uFEFF]/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim()}
+function toLatin(s){const fa='۰۱۲۳۴۵۶۷۸۹',ar='٠١٢٣٤٥٦٧٨٩';return String(s||'').replace(/[۰-۹٠-٩]/g,ch=>{let i=fa.indexOf(ch);if(i>-1)return String(i);i=ar.indexOf(ch);return i>-1?String(i):ch})}
+function digits(s){return toLatin(s).replace(/[^0-9]/g,'')}
+function formatAmount(n){const d=digits(n);return d?Number(d).toLocaleString('en-US'):'—'}
+function formatFullIBAN(iban){const c=String(iban||'').replace(/\s/g,'').toUpperCase();return c?c.match(/.{1,4}/g).join(' '):''}
+function getCode(iban){const c=String(iban||'').replace(/\s/g,'').toUpperCase().replace('IR','');return c.substring(2,5)}
+function renderLogo(el, iban, fallbackBank){const code=getCode(iban);const name=(code&&BANK_CODES[code])||fallbackBank||'?';const color=BANK_COLORS[code]||'#2e7d32';el.textContent=code||String(name).substring(0,2);el.style.background=color+'14';el.style.borderColor=color+'40';el.style.color=color;return name}
+function switchMode(mode){['Image','Text','Manual'].forEach(x=>{$('mode'+x).classList.remove('active');$('tab'+x).classList.remove('active')});$('mode'+mode[0].toUpperCase()+mode.slice(1)).classList.add('active');$('tab'+mode[0].toUpperCase()+mode.slice(1)).classList.add('active');showError('')}
+function normalizeIban(raw){let s=toLatin(String(raw||'')).replace(/[Oo]/g,'0').replace(/I\s*R/ig,'IR').trim();let m=s.match(/IR\s*\d{2}(?:\s*\d){20,26}/i);if(m)return m[0].replace(/\s/g,'').toUpperCase().slice(0,26);m=s.match(/(?:\d{1,4}\s+){4,8}\d{1,4}\s*\d{2}\s*IR/i);if(m){let parts=m[0].replace(/IR/i,' IR').trim().split(/\s+/).filter(Boolean);let last=parts.pop()||'';let check=last.replace(/IR/i,'');if(!check&&parts.length)check=parts.pop();let body=parts.reverse().join('');let out=('IR'+check+body).toUpperCase();return /^IR\d{24}/.test(out)?out.slice(0,26):''}return ''}
+function findIbans(text){const out=[];const t=toLatin(String(text||'')).replace(/[Oo]/g,'0').replace(/I\s*R/ig,'IR');[/IR\s*\d{2}(?:\s*\d){20,26}/ig,/(?:\d{1,4}\s+){4,8}\d{1,4}\s*\d{2}\s*IR/ig].forEach(re=>{let m;while((m=re.exec(t))){const n=normalizeIban(m[0]);if(n&&!out.includes(n))out.push(n)}});return out}
+function linesOf(raw){return toLatin(String(raw||'')).replace(/<[^>]+>/g,' ').split(/\r?\n| {2,}/).map(clean).filter(Boolean)}
+function section(lines,startRe,endRes){const s=lines.findIndex(l=>startRe.test(l)); if(s<0)return[]; let e=lines.length; for(let i=s+1;i<lines.length;i++) if(endRes.some(r=>r.test(lines[i]))){e=i;break} return lines.slice(s,e)}
+function valAfter(lines,labels,stopRe){stopRe=stopRe||/^(جزئیات|تاریخ|زمان|مبلغ|انتقال|کارمزد|کد|شناسه|نوع|شماره شبا|صاحب حساب مقصد|توضیحات|بانک|پنل|https?:\/\/)/;for(let i=0;i<lines.length;i++){for(const lab of labels){const p=lines[i].indexOf(lab);if(p<0)continue;let same=clean(lines[i].slice(p+lab.length).replace(/^[:：\-–]+/,''));if(same&&!stopRe.test(same))return same;for(let j=i+1;j<Math.min(lines.length,i+7);j++){let c=clean(lines[j]);if(!c)continue;if(stopRe.test(c))break;return c}}}return ''}
+function inferPurpose(desc){desc=String(desc||'');if(/تادیه|دیون|بدهی|تسویه/.test(desc))return'تادیه دیون';if(/قرض|وام|الحسنه/.test(desc))return'قرض';return'خرید'}
+function parseReceiptText(raw){const lines=linesOf(raw);const flat=clean(lines.join(' '));const out={status:'TRANSFERRED',transferTypeRaw:'ACH'};
+  let m=flat.match(/(?:انتقال وجه|مبلغ تراکنش|مبلغ|مبلغ انتقال وجه)\s*([0-9,،.٬\s]{4,})\s*(?:ریال|تومان)?/); if(m)out.amount=digits(m[1]);
+  if(!out.amount){const cur=[...flat.matchAll(/([0-9][0-9,،.٬\s]{3,18})\s*ریال/g)].map(x=>digits(x[1])).filter(x=>x.length>=5&&x.length<=15&&x!=='10000'&&!/^14\d{6,}$/.test(x));out.amount=cur[0]||''}
+  m=flat.match(/1[34]\d{2}[\/\-.][01]?\d[\/\-.][0-3]?\d\s*(?:-|،)?\s*\d{1,2}:\d{2}(?::\d{2})?/); if(m)out.createdAt=clean(m[0]); else out.createdAt=valAfter(lines,['تاریخ ایجاد','زمان تراکنش','تاریخ تراکنش','تاریخ و زمان ایجاد تراکنش'],/^(تاریخ|زمان|جزئیات|کد|نوع|شناسه|مبلغ)/);
+  m=flat.match(/(?:کد رهگیری بانک|شماره پیگیری|کد پیگیری|رهگیری بانک)[^0-9]{0,30}([0-9]{6,20})/); if(m)out.bankTrackingCode=m[1]; else {m=flat.match(/\b(14\d{10,14})\b/); if(m)out.bankTrackingCode=m[1]}
+  const ibans=findIbans(flat); out.destIban=valAfter(lines,['شماره شبا مقصد','شبا مقصد','شبا دریافت کننده','شماره شبای مقصد'],/^(شماره شبا|شبا|جزئیات|بانک|صاحب حساب مقصد|نام|توضیحات)/); out.destIban=normalizeIban(out.destIban)||ibans[ibans.length-1]||'';
+  out.destBank=valAfter(lines,['بانک مقصد'],/^(بانک مقصد|جزئیات|نام|صاحب حساب مقصد|شماره شبا)/) || (out.destIban ? BANK_CODES[getCode(out.destIban)] : '');
+  const dst=section(lines,/جزئیات مقصد|جزئیات مبدا و مقصد|جزئیات مبدا و مقصد|جزئیات مبدا و مقصد/,[/توضیحات/,/پنل/,/^https?:\/\//]);
+  out.destFullName=valAfter(dst.length?dst:lines,['نام دریافت کننده','نام گیرنده','صاحب حساب مقصد مقصد','صاحب حساب مقصد','ذینفع','ذی نفع'],/^(نام|صاحب حساب مقصد|شماره شبا|بانک|جزئیات|توضیحات)/);
+  if(!out.destFullName){const names=[];lines.forEach((l,i)=>{if(/نام دریافت کننده|نام گیرنده|صاحب حساب مقصد|ذینفع|ذی نفع/.test(l)){let x=clean(l.replace(/نام دریافت کننده|نام گیرنده|صاحب حساب مقصد|ذینفع|ذی نفع|مقصد|[:：]/g,''));if(/[آ-ی]/.test(x)&&x.length>2&&x.length<60)names.push(x);else if(lines[i+1]&&/[آ-ی]/.test(lines[i+1]))names.push(lines[i+1])}});out.destFullName=names[names.length-1]||''}
+  out.description=valAfter(lines,['توضیحات','شرح','بابت'],/^(توضیحات|شرح|بابت|پنل|https?:\/\/|جزئیات)/); out.purpose=inferPurpose(out.description);
+  if(/ناموفق|لغو|failed|cancel/.test(flat))out.status='FAILED'; else if(/در انتظار|پردازش|pending|progress/.test(flat))out.status='PENDING';
+  if(/ساتنا|SATNA/i.test(flat))out.transferTypeRaw='SATNA'; else if(/آنی|NORMAL|حساب به حساب/i.test(flat))out.transferTypeRaw='NORMAL'; else if(/پایا|ACH/i.test(flat))out.transferTypeRaw='ACH';
+  return out}
+async function imageToPreparedUrls(file){const img=await new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error('تصویر خوانده نشد'));im.src=URL.createObjectURL(file)});const W=img.naturalWidth,H=img.naturalHeight;const crops=[{x:0,y:0,w:W,h:H},{x:Math.round(W*.03),y:Math.round(H*.02),w:Math.round(W*.94),h:Math.round(H*.96)}];const urls=[];for(const cr of crops){for(const mode of ['gray','thr']){const scale=Math.min(4,Math.max(2,2600/Math.max(cr.w,cr.h)));const c=document.createElement('canvas');c.width=Math.round(cr.w*scale);c.height=Math.round(cr.h*scale);const ctx=c.getContext('2d',{willReadFrequently:true});ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,cr.x,cr.y,cr.w,cr.h,0,0,c.width,c.height);const imd=ctx.getImageData(0,0,c.width,c.height),d=imd.data;for(let i=0;i<d.length;i+=4){let y=.299*d[i]+.587*d[i+1]+.114*d[i+2];y=(y-128)*1.65+128;if(mode==='thr')y=y>170?255:0;y=Math.max(0,Math.min(255,y));d[i]=d[i+1]=d[i+2]=y}ctx.putImageData(imd,0,0);urls.push(c.toDataURL('image/png'))}}return urls}
+/* processImageReceipt توسط V54 در اسکریپت پایین override می‌شود */
+function processTextReceipt(){const raw=$('receiptText').value.trim();if(!raw){showError('متن رسید را وارد کن');return}showError('');openReviewForm(parseReceiptText(raw),'text')}
+function openReviewForm(t,source){t=t||{};$('reviewNote').textContent=source==='manual'?'اطلاعات را دستی وارد کن و رسید را بساز.':'اطلاعات استخراج‌شده را بررسی کن. اگر فیلدی خالی یا اشتباه است همینجا اصلاحش کن؛ بعد رسید ساخته می‌شود.';$('f_destName').value=t.destFullName||'';$('f_destIban').value=t.destIban||'';$('f_destBank').value=t.destBank||'';$('f_type').value=t.transferTypeRaw||'ACH';$('f_amount').value=t.amount||'';$('f_tracking').value=t.bankTrackingCode||'';$('f_created').value=t.createdAt||'';$('f_status').value=t.status||'TRANSFERRED';$('f_purpose').value=t.purpose||inferPurpose(t.description)||'خرید';$('f_desc').value=t.description||'';$('reviewBox').style.display='block';$('reviewBox').scrollIntoView({behavior:'smooth'})}
+function clearReviewForm(){document.querySelectorAll('#reviewBox input').forEach(i=>i.value='');$('f_status').value='TRANSFERRED';$('f_type').value='ACH';$('f_purpose').value='خرید'}
+function buildReceiptFromForm(){applyReceiptFont(($('f_receiptFont')&&$('f_receiptFont').value)||'naskh');const t={destFullName:clean($('f_destName').value),destIban:normalizeIban($('f_destIban').value)||clean($('f_destIban').value).replace(/\s/g,'').toUpperCase(),destBank:clean($('f_destBank').value),amount:digits($('f_amount').value),bankTrackingCode:clean($('f_tracking').value),createdAt:clean($('f_created').value),status:$('f_status').value,transferTypeRaw:$('f_type').value,purpose:$('f_purpose').value,description:clean($('f_desc').value)};renderReceipt(t);makeFieldsEditable()}
+function addExtra(label,value,dir){if(!value)return;const row=document.createElement('div');row.className='detail-row extra';row.innerHTML=`<div class="detail-label">${label}</div><div class="detail-value" style="direction:${dir?'ltr':'rtl'};text-align:left">${String(value).replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</div>`;$('detailsSection').appendChild(row)}
+function renderReceipt(t){const st=t.status||'TRANSFERRED';$('receiptType').textContent='رسید انتقال وجه';const c=$('statusCircle'),ic=$('statusIcon');c.className='check-circle';ic.innerHTML='<polyline points="20 6 9 17 4 12"></polyline>';renderLogo($('destLogo'),t.destIban,t.destBank);$('topReceiptTitle').textContent='رسید انتقال وجه';$('destName').textContent=t.destFullName||'—';$('destIban').textContent=formatFullIBAN(t.destIban)||'—';$('statusVal').textContent=STATUS_MAP[st]||'موفق';$('purposeVal').textContent=t.purpose||inferPurpose(t.description);$('amountVal').textContent=formatAmount(t.amount);$('timeVal').textContent=t.createdAt||'—';$('trackingVal').textContent=t.bankTrackingCode||'—';document.querySelectorAll('.extra').forEach(x=>x.remove());addExtra('بانک مقصد',t.destBank,false);window._trackingCode=t.bankTrackingCode||'';window._receiptText=`رسید انتقال وجه
+مبلغ: ${formatAmount(t.amount)} ریال
+وضعیت: ${STATUS_MAP[st]||'موفق'}
+کد پیگیری: ${window._trackingCode}
+زمان: ${t.createdAt||''}`;$('receiptWrapper').style.display='flex';applyReceiptFont((localStorage.getItem('receiptFaFont')||($('f_receiptFont')&&$('f_receiptFont').value)||'naskh'));$('receiptWrapper').scrollIntoView({behavior:'smooth'})}
+function makeFieldsEditable(){['topReceiptTitle','destName','destIban','statusVal','purposeVal','amountVal','timeVal','trackingVal'].forEach(id=>{const el=$(id);el.contentEditable='true';el.style.cursor='text';el.style.borderBottom='1px dashed #bbb';el.onfocus=()=>el.style.background='#fffde7';el.onblur=()=>el.style.background=''})}
+function copyTracking(){navigator.clipboard.writeText(window._trackingCode||'').then(()=>alert('✓ کپی شد'),()=>prompt('کد پیگیری:',window._trackingCode||''))}
+function shareReceipt(){if(navigator.share)navigator.share({title:'رسید بانکی',text:window._receiptText||''});else navigator.clipboard.writeText(window._receiptText||'').then(()=>alert('✓ متن رسید کپی شد'))}
+async function downloadReceipt(){const card=$('receiptCard');const action=document.querySelector('.action-row');applyReceiptFont((localStorage.getItem('receiptFaFont')||($('f_receiptFont')&&$('f_receiptFont').value)||'naskh'));if(document.fonts&&document.fonts.ready){try{await document.fonts.ready}catch(_){}}action.style.visibility='hidden';html2canvas(card,{backgroundColor:'#fff',scale:3,useCORS:true}).then(canvas=>{action.style.visibility='visible';canvas.toBlob(blob=>{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='receipt-'+(window._trackingCode||'bank')+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),4000)},'image/png')}).catch(e=>{action.style.visibility='visible';alert('خطا در دانلود: '+e.message)})}
+</script>
+
+<script>
+/* ===================== V54: VISION via AvalAI Worker ===================== */
+(function(){
+  const WORKER_AI_URL = 'https://wandering-art-2d95.amin10-2tion.workers.dev/ai';
+  const $=id=>document.getElementById(id);
+  const cl=s=>String(s||'').replace(/[\u200c\u200f\u200e\u202a-\u202e\uFEFF]/g,' ').replace(/\s+/g,' ').trim();
+  const fa2en=s=>String(s||'').replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c));
+
+  function fileToBase64(file){
+    return new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res(r.result.split(',')[1]);
+      r.onerror=()=>rej(new Error('خطا در خواندن فایل'));
+      r.readAsDataURL(file);
+    });
+  }
+
+  async function analyzeImage(base64, mimeType){
+    const prompt=`این عکس یک رسید بانکی ایرانی است.
+فقط یک JSON خالص برگردان - بدون توضیح، بدون markdown:
+
+{
+  "destFullName": "نام کامل دریافت‌کننده فقط فارسی",
+  "destIban": "شبا مقصد فرمت IR+24رقم بدون فاصله",
+  "destBank": "نام بانک مقصد",
+  "amount": "مبلغ اصلی فقط عدد بدون کاما مثال 250000000",
+  "bankTrackingCode": "کد رهگیری بانک فقط عدد",
+  "createdAt": "تاریخ ایجاد مثال 1405/04/06 - 15:02:32",
+  "status": "TRANSFERRED یا FAILED یا PENDING",
+  "transferTypeRaw": "ACH یا NORMAL یا SATNA",
+  "description": "توضیحات اگر هست",
+  "purpose": "خرید یا قرض یا تادیه دیون"
+}
+
+نکات:
+- مبلغ کارمزد (۵۵٬۰۰۰ یا ۱۰٬۰۰۰) را نگیر
+- شبا را از بخش مقصد بگیر نه مبدا
+- فیلد خالی را "" بگذار
+- فقط JSON`;
+
+    const payload={
+      model:'claude-sonnet-4-6',
+      max_tokens:1000,
+      messages:[{
+        role:'user',
+        content:[
+          {type:'image',source:{type:'base64',media_type:mimeType,data:base64}},
+          {type:'text',text:prompt}
+        ]
+      }]
+    };
+
+    const res=await fetch(WORKER_AI_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+
+    if(!res.ok){
+      const err=await res.text();
+      throw new Error('Worker error '+res.status+': '+err.slice(0,200));
+    }
+
+    const data=await res.json();
+    const text=(data.content||[]).map(b=>b.type==='text'?b.text:'').join('').trim();
+    const jsonStr=text.replace(/^```json\s*/,'').replace(/^```\s*/,'').replace(/\s*```$/,'').trim();
+    return JSON.parse(jsonStr);
+  }
+
+  function normalize(p){
+    let iban=String(p.destIban||'').replace(/\s/g,'').toUpperCase();
+    if(iban&&!/^IR/.test(iban))iban='IR'+iban;
+    let amount=fa2en(String(p.amount||'')).replace(/[^0-9]/g,'');
+    let bank=cl(p.destBank||'');
+    if(!bank&&iban&&typeof BANK_CODES!=='undefined'){
+      const code=iban.replace(/^IR/,'').substring(2,5);
+      if(BANK_CODES[code])bank=BANK_CODES[code];
+    }
+    let purpose=p.purpose||'';
+    if(!['خرید','قرض','تادیه دیون'].includes(purpose))
+      purpose=typeof inferPurpose==='function'?inferPurpose(p.description||''):'خرید';
+    return {
+      destFullName:cl(p.destFullName||''),
+      destIban:iban,
+      destBank:bank,
+      amount:amount,
+      bankTrackingCode:fa2en(String(p.bankTrackingCode||'')).replace(/[^0-9]/g,''),
+      createdAt:cl(p.createdAt||''),
+      status:['TRANSFERRED','FAILED','PENDING'].includes(p.status)?p.status:'TRANSFERRED',
+      transferTypeRaw:['ACH','NORMAL','SATNA'].includes(p.transferTypeRaw)?p.transferTypeRaw:'ACH',
+      description:cl(p.description||''),
+      purpose:purpose
+    };
+  }
+
+  function ensureResultBox(){
+    let box=$('resultBoxV54');
+    if(!box){
+      box=document.createElement('div');
+      box.id='resultBoxV54';
+      box.style.cssText='display:none;margin-top:12px';
+      box.innerHTML=`
+        <div class="hint" style="border-right-color:#1d4ed8;background:#eff6ff;color:#1e3a8a">
+          نتیجه تشخیص هوش مصنوعی. اگر فیلدی اشتباه بود در فرم پایین اصلاح کن.
+        </div>
+        <label class="label">خروجی تشخیص:</label>
+        <textarea id="resultTextV54" class="textarea" style="min-height:150px;direction:ltr;text-align:left;font-size:11px;font-family:monospace"></textarea>
+        <button class="btn light" type="button" onclick="window.reapplyV54()">🔄 اعمال دوباره ←</button>`;
+      ($('modeImage')||document.querySelector('.panel')).appendChild(box);
+    }
+    return box;
+  }
+
+  window.reapplyV54=function(){
+    try{
+      const raw=$('resultTextV54')?.value||'';
+      const parsed=JSON.parse(raw);
+      if(typeof openReviewForm==='function')openReviewForm(normalize(parsed),'image');
+    }catch(e){
+      if(typeof showError==='function')showError('JSON نامعتبر: '+e.message);
+    }
+  };
+
+  window.processImageReceipt=async function(){
+    const input=$('imageInput');
+    const file=input&&input.files?input.files[0]:null;
+    if(!file){if(typeof showError==='function')showError('لطفاً یک عکس انتخاب کن');return;}
+    const btn=$('ocrBtn'),prog=$('ocrProgress');
+    if(btn)btn.disabled=true;
+    if(prog){prog.style.display='block';prog.textContent='در حال آماده‌سازی عکس...';}
+    if(typeof showError==='function')showError('');
+    try{
+      const mimeType=file.type||'image/jpeg';
+      if(!['image/jpeg','image/png','image/gif','image/webp'].includes(mimeType))
+        throw new Error('فقط JPG، PNG، GIF و WebP پشتیبانی می‌شود.');
+      if(prog)prog.textContent='در حال ارسال به هوش مصنوعی...';
+      const base64=await fileToBase64(file);
+      if(prog)prog.textContent='در حال تحلیل رسید...';
+      const raw=await analyzeImage(base64,mimeType);
+
+      ensureResultBox().style.display='block';
+      const ta=$('resultTextV54');
+      if(ta)ta.value=JSON.stringify(raw,null,2);
+
+      const parsed=normalize(raw);
+      if(typeof openReviewForm==='function')openReviewForm(parsed,'image');
+
+      const filled=['amount','bankTrackingCode','destIban','destFullName'].filter(k=>cl(parsed[k]).length>0).length;
+      if(filled<2&&typeof showError==='function')
+        showError('بعضی فیلدها پیدا نشد. خروجی JSON را بالا بررسی و در فرم اصلاح کن.');
+    }catch(e){
+      if(typeof showError==='function')showError('خطا: '+(e.message||String(e)));
+    }finally{
+      if(btn)btn.disabled=false;
+      if(prog)prog.style.display='none';
+    }
+  };
+
+})();
+</script>
+</body>
+</html>
